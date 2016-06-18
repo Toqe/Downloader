@@ -6,6 +6,7 @@ A library for resuming and multi-part/multi-threaded downloads in .NET written i
 The library uses .NET 3.5 and threads to support all platforms from Windows Vista on.
 
 Example for usage:
+Start a resuming download with 4 parts of test.com to local file myfile.html.
 
 ```
             var url = new Uri("http://www.test.com");
