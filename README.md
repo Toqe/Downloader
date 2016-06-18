@@ -9,18 +9,22 @@ Example for usage:
 
 ```
             var url = new Uri("http://www.test.com");
-            var file = new FileInfo("myfile.html");
+            var file = new System.IO.FileInfo("myfile.html");
             var requestBuilder = new SimpleWebRequestBuilder();
             var dlChecker = new DownloadChecker();
             var httpDlBuilder = new SimpleDownloadBuilder(requestBuilder, dlChecker);
-            var rdlBuilder = new ResumingDownloadBuilder(3000, 5000, 5, httpDlBuilder);
-            var alreadyDownloadedRanges = null;
-            var speedMonitor = new DownloadSpeedMonitor(32);
-            this.download = new MultiPartDownload(url, 4096, 4, rdlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
-            speedMonitor.Attach(this.download);
-            this.download.DataReceived += dl_DataReceived;
-            this.download.DownloadCompleted += (args) => { /* download has finished! */ };
+            var timeForHeartbeat = 3000;
+            var timeToRetry = 5000;
+            var maxRetries = 5;
+            var rdlBuilder = new ResumingDownloadBuilder(timeForHeartbeat, timeToRetry, maxRetries, httpDlBuilder);
+            List<DownloadRange> alreadyDownloadedRanges = null;
+            var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 32);
+            var bufferSize = 4096;
+            var numberOfParts = 4;
+            var download = new MultiPartDownload(url, bufferSize, numberOfParts, rdlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
+            speedMonitor.Attach(download);
+            download.DownloadCompleted += (args) => Console.WriteLine("download has finished!");
             var dlSaver = new DownloadToFileSaver(file);
-            dlSaver.Attach(this.download);
-            this.download.Start();
+            dlSaver.Attach(download);
+            download.Start();
 ```
