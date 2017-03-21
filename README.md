@@ -6,11 +6,12 @@ A library for resuming and multi-part/multi-threaded downloads in .NET written i
 The library uses .NET 3.5 and threads to support all platforms from Windows Vista on.
 
 Example for usage:
-Start a resuming download with 4 parts of test.com to local file myfile.html.
+Start a resuming download with 4 parts of this README.md to local file README.md.
+See also project Downloader.Example.
 
 ```
-var url = new Uri("http://www.test.com");
-var file = new System.IO.FileInfo("myfile.html");
+var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
+var file = new System.IO.FileInfo("README.md");
 var requestBuilder = new SimpleWebRequestBuilder();
 var dlChecker = new DownloadChecker();
 var httpDlBuilder = new SimpleDownloadBuilder(requestBuilder, dlChecker);
