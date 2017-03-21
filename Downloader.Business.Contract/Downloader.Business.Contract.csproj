@@ -36,6 +36,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Events\DownloadDataReceivedArgs.cs" />
     <Compile Include="Events\DownloadDelegates.cs" />
     <Compile Include="DownloadCheckResult.cs" />
