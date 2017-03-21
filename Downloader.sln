@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader.Business", "Downloader.Business\Downloader.Business.csproj", "{045CE992-F761-4541-BE07-D9DA5B1E37C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader.Test", "Downloader.Test\Downloader.Test.csproj", "{B4B0E523-1273-46AD-A956-7B66390F6FA9}"
@@ -14,24 +16,48 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B65C6B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader.Business.Contract", "Downloader.Business.Contract\Downloader.Business.Contract.csproj", "{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downloader.Example", "Downloader.Example\Downloader.Example.csproj", "{2BB3FC3C-173E-4F3A-8F63-0896606F106F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug3.5|Any CPU = Debug3.5|Any CPU
+		Release|Any CPU = Release|Any CPU
 		Release3.5|Any CPU = Release3.5|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
 		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
 		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
 		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEBC948-AB61-479A-9AC5-99C2517DDB9D}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release3.5|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
