@@ -7,7 +7,6 @@ The library uses .NET 3.5 and threads to support all platforms from Windows Vist
 
 Example for usage:
 Start a resuming download with 4 parts of this README.md to local file README.md.
-See also project Downloader.Example.
 
 ```
 var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
@@ -20,13 +19,13 @@ var timeToRetry = 5000;
 var maxRetries = 5;
 var rdlBuilder = new ResumingDownloadBuilder(timeForHeartbeat, timeToRetry, maxRetries, httpDlBuilder);
 List<DownloadRange> alreadyDownloadedRanges = null;
-var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 32);
 var bufferSize = 4096;
 var numberOfParts = 4;
 var download = new MultiPartDownload(url, bufferSize, numberOfParts, rdlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
-speedMonitor.Attach(download);
 download.DownloadCompleted += (args) => Console.WriteLine("download has finished!");
 var dlSaver = new DownloadToFileSaver(file);
 dlSaver.Attach(download);
 download.Start();
 ```
+
+For a more sophisticated example also demonstrating the download observers functionality, please have a look at the Downloader.Example project.
