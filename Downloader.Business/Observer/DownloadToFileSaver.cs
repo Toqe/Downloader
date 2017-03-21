@@ -45,6 +45,7 @@ namespace Toqe.Downloader.Business.Observer
             download.DownloadStarted -= downloadStarted;
             download.DownloadCancelled -= downloadCancelled;
             download.DownloadCompleted -= downloadCompleted;
+            download.DownloadStopped -= downloadStopped;
             download.DataReceived -= downloadDataReceived;
         }
 

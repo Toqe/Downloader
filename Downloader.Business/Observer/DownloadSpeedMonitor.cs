@@ -42,6 +42,11 @@ namespace Toqe.Downloader.Business.Observer
             download.DataReceived += downloadDataReceived;
         }
 
+        protected override void OnDetach(IDownload download)
+        {
+            download.DataReceived -= downloadDataReceived;
+        }
+
         private void AddSample(int count)
         {
             lock (this.monitor)

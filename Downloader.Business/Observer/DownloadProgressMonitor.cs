@@ -59,6 +59,26 @@ namespace Toqe.Downloader.Business.Observer
             download.DownloadCompleted += OnDownloadCompleted;
         }
 
+        protected override void OnDetach(IDownload download)
+        {
+            download.DownloadStarted -= OnDownloadStarted;
+            download.DataReceived -= OnDownloadDataReceived;
+            download.DownloadCompleted -= OnDownloadCompleted;
+
+            lock (this.monitor)
+            {
+                if (this.downloadSizes.ContainsKey(download))
+                {
+                    this.downloadSizes.Remove(download);
+                }
+
+                if (this.alreadyDownloadedSizes.ContainsKey(download))
+                {
+                    this.alreadyDownloadedSizes.Remove(download);
+                }
+            }
+        }
+
         private void OnDownloadStarted(DownloadStartedEventArgs args)
         {
             lock (this.monitor)
