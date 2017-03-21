@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Download\AbstractDownload.cs" />
     <Compile Include="Observer\AbstractDownloadObserver.cs" />
+    <Compile Include="Observer\DownloadProgressMonitor.cs" />
     <Compile Include="Observer\DownloadSpeedMonitor.cs" />
     <Compile Include="Observer\DownloadThrottling.cs" />
     <Compile Include="Observer\DownloadDataSample.cs" />
