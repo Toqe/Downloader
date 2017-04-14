@@ -216,7 +216,7 @@ namespace Toqe.Downloader.Business.Download
 
             if (shouldNotifyDownloadStarted)
             {
-                this.OnDownloadStarted(new DownloadStartedEventArgs(this, args.CheckResult));
+                this.OnDownloadStarted(new DownloadStartedEventArgs(this, args.CheckResult, args.AlreadyDownloadedSize));
             }
         }
 

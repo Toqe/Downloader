@@ -84,6 +84,7 @@ namespace Toqe.Downloader.Business.Observer
             lock (this.monitor)
             {
                 this.downloadSizes[args.Download] = args.CheckResult.Size;
+                this.alreadyDownloadedSizes[args.Download] = args.AlreadyDownloadedSize;
             }
         }
 

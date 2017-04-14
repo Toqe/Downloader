@@ -73,6 +73,11 @@ namespace Toqe.Downloader.Business.Download
                 download.DetachAllHandlers();
                 download.Stop();
             }
+
+            lock (this.monitor)
+            {
+                this.state = DownloadState.Stopped;
+            }
         }
 
         private void DetermineFileSizeAndStartDownloads()
@@ -82,7 +87,7 @@ namespace Toqe.Downloader.Business.Download
             if (!downloadCheck.SupportsResume)
                 throw new InvalidOperationException("Resuming not supported");
 
-            this.OnDownloadStarted(new DownloadStartedEventArgs(this, downloadCheck));
+            this.OnDownloadStarted(new DownloadStartedEventArgs(this, downloadCheck, this.AlreadyDownloadedRanges.Sum(x => x.Length)));
 
             lock (this.monitor)
             {

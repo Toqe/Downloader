@@ -41,7 +41,7 @@ namespace Toqe.Downloader.Business.Download
                     int currentOffset = supportsResume && this.offset.HasValue ? this.offset.Value : 0;
                     int sumOfBytesRead = 0;
 
-                    this.OnDownloadStarted(new DownloadStartedEventArgs(this, checkResult));
+                    this.OnDownloadStarted(new DownloadStartedEventArgs(this, checkResult, currentOffset));
 
                     using (var stream = response.GetResponseStream())
                     {
