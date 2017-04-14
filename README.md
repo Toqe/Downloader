@@ -8,7 +8,7 @@ The library uses .NET 3.5 and threads to support all platforms from Windows Vist
 Example for usage:
 Start a resuming download with 4 parts of this README.md to local file README.md.
 
-```
+```C#
 var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
 var file = new System.IO.FileInfo("README.md");
 var requestBuilder = new SimpleWebRequestBuilder();
