@@ -44,13 +44,17 @@ namespace Downloader.Example
             while (!finished)
             {
                 Thread.Sleep(1000);
+
+                var percent = progressMonitor.GetCurrentProgressPercentage(download) * 100;
+                var alreadyDownloadedSize = (progressMonitor.GetCurrentProgressInBytes(download) / 1024);
+                var totalDownloadSize = (progressMonitor.GetTotalFilesizeInBytes(download) / 1024);
+                var speed = (speedMonitor.GetCurrentBytesPerSecond() / 1024);
+                var remainingTime = (progressMonitor.GetTotalFilesizeInBytes(download) - progressMonitor.GetCurrentProgressInBytes(download)) / speedMonitor.GetCurrentBytesPerSecond();
+
                 Console.WriteLine(
-                    "Progress: " +
-                    (progressMonitor.GetCurrentProgressPercentage(download) * 100) + "% " +
-                    "(" + (progressMonitor.GetCurrentProgressInBytes(download) / 1024) + " of " +
-                    (progressMonitor.GetTotalFilesizeInBytes(download) / 1024) + " KiB)" +
-                    "   Speed: " +
-                    (speedMonitor.GetCurrentBytesPerSecond() / 1024) + " KiB/sec.");
+                    "Progress: " + percent + "% " + "(" + alreadyDownloadedSize + " of " + totalDownloadSize + " KiB)" +
+                    "   Speed: " + speed + " KiB/sec." +
+                    "   Remaining time: " + remainingTime + " sec.");
             }
         }
 
