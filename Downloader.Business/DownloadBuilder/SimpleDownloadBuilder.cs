@@ -25,7 +25,7 @@ namespace Toqe.Downloader.Business.DownloadBuilder
             this.downloadChecker = downloadChecker;
         }
 
-        public IDownload Build(Uri url, int bufferSize, int? offset, int? maxReadBytes)
+        public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
             return new SimpleDownload(url, bufferSize, offset, maxReadBytes, this.requestBuilder, this.downloadChecker);
         }

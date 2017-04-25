@@ -8,7 +8,7 @@ namespace Downloader.Test
 {
     public class TestWebRequestBuilder : IWebRequestBuilder
     {
-        public System.Net.HttpWebRequest CreateRequest(Uri url, int? offset)
+        public System.Net.HttpWebRequest CreateRequest(Uri url, long? offset)
         {
             throw new NotImplementedException();
         }

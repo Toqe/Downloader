@@ -15,7 +15,7 @@ namespace Downloader.Test
         {
         }
 
-        public void OnDataReceived(byte[] data, int offset, int count)
+        public void OnDataReceived(byte[] data, long offset, int count)
         {
             this.OnDataReceived(new DownloadDataReceivedEventArgs(this, data, offset, count));
         }

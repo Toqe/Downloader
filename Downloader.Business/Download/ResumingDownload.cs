@@ -23,9 +23,9 @@ namespace Toqe.Downloader.Business.Download
 
         private bool downloadStartedNotified;
 
-        private int currentOffset;
+        private long currentOffset;
 
-        private int sumOfBytesRead;
+        private long sumOfBytesRead;
 
         private IDownload currentDownload;
 
@@ -33,7 +33,7 @@ namespace Toqe.Downloader.Business.Download
 
         private int currentRetry = 0;
 
-        public ResumingDownload(Uri url, int bufferSize, int? offset, int? maxReadBytes, int timeForHeartbeat, int timeToRetry, int? maxRetries, IDownloadBuilder downloadBuilder)
+        public ResumingDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, int timeForHeartbeat, int timeToRetry, int? maxRetries, IDownloadBuilder downloadBuilder)
             : base(url, bufferSize, offset, maxReadBytes, null, null)
         {
             if (timeForHeartbeat <= 0)
@@ -128,7 +128,7 @@ namespace Toqe.Downloader.Business.Download
                     return;
                 }
 
-                int? currentMaxReadBytes = this.maxReadBytes.HasValue ? (int?)this.maxReadBytes.Value - this.sumOfBytesRead : null;
+                long? currentMaxReadBytes = this.maxReadBytes.HasValue ? (long?)this.maxReadBytes.Value - this.sumOfBytesRead : null;
 
                 this.currentDownload = this.downloadBuilder.Build(this.url, this.bufferSize, this.currentOffset, currentMaxReadBytes);
                 this.currentDownload.DownloadStarted += downloadStarted;
@@ -175,7 +175,7 @@ namespace Toqe.Downloader.Business.Download
             var download = args.Download;
             var count = args.Count;
             var data = args.Data;
-            int previousOffset = 0;
+            long previousOffset = 0;
 
             lock (this.monitor)
             {

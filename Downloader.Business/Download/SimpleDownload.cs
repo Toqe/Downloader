@@ -11,7 +11,7 @@ namespace Toqe.Downloader.Business.Download
 {
     public class SimpleDownload : AbstractDownload
     {
-        public SimpleDownload(Uri url, int bufferSize, int? offset, int? maxReadBytes, IWebRequestBuilder requestBuilder, IDownloadChecker downloadChecker)
+        public SimpleDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, IWebRequestBuilder requestBuilder, IDownloadChecker downloadChecker)
             : base(url, bufferSize, offset, maxReadBytes, requestBuilder, downloadChecker)
         {
         }
@@ -38,8 +38,8 @@ namespace Toqe.Downloader.Business.Download
 
                     var checkResult = this.downloadChecker.CheckDownload(response);
                     var supportsResume = checkResult.SupportsResume;
-                    int currentOffset = supportsResume && this.offset.HasValue ? this.offset.Value : 0;
-                    int sumOfBytesRead = 0;
+                    long currentOffset = supportsResume && this.offset.HasValue ? this.offset.Value : 0;
+                    long sumOfBytesRead = 0;
 
                     this.OnDownloadStarted(new DownloadStartedEventArgs(this, checkResult, currentOffset));
 
@@ -73,7 +73,7 @@ namespace Toqe.Downloader.Business.Download
 
                             if (maxReadBytes.HasValue && sumOfBytesRead + bytesRead > maxReadBytes.Value)
                             {
-                                var count = maxReadBytes.Value - sumOfBytesRead;
+                                var count = (int)(maxReadBytes.Value - sumOfBytesRead);
 
                                 if (count > 0)
                                 {         

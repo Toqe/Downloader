@@ -15,7 +15,7 @@ namespace Downloader.Test
 
         public List<TestDownload> ReturnedDownloads { get; set; }
 
-        public IDownload Build(Uri url, int bufferSize, int? offset, int? maxReadBytes)
+        public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
             var download = new TestDownload(url, bufferSize);
             this.ReturnedDownloads.Add(download);

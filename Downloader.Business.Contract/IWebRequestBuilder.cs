@@ -8,6 +8,6 @@ namespace Toqe.Downloader.Business.Contract
 {
     public interface IWebRequestBuilder
     {
-        HttpWebRequest CreateRequest(Uri url, int? offset);
+        HttpWebRequest CreateRequest(Uri url, long? offset);
     }
 }

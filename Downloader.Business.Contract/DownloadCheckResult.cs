@@ -8,7 +8,7 @@ namespace Toqe.Downloader.Business.Contract
     {
         public bool Success { get; set; }
 
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         public int? StatusCode { get; set; }
 

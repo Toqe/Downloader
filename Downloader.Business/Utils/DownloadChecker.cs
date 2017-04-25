@@ -13,7 +13,7 @@ namespace Toqe.Downloader.Business.Utils
             var result = new DownloadCheckResult();
             var acceptRanges = response.Headers["Accept-Ranges"];
             result.SupportsResume = !string.IsNullOrEmpty(acceptRanges) && acceptRanges.ToLower().Contains("bytes");
-            result.Size = (int)response.ContentLength;
+            result.Size = response.ContentLength;
             result.StatusCode = (int?)(response as HttpWebResponse)?.StatusCode;
             result.Success = true;
             return result;

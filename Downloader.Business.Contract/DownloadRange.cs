@@ -10,17 +10,17 @@ namespace Toqe.Downloader.Business.Contract
         {
         }
 
-        public DownloadRange(int start, int length)
+        public DownloadRange(long start, long length)
         {
             this.Start = start;
             this.Length = length;
         }
 
-        public int Start { get; set; }
+        public long Start { get; set; }
 
-        public int Length { get; set; }
+        public long Length { get; set; }
 
-        public int End
+        public long End
         {
             get { return this.Start + this.Length - 1; }
         }
@@ -49,7 +49,7 @@ namespace Toqe.Downloader.Business.Contract
 
         public override int GetHashCode()
         {
-            return 13 * this.Start * this.End;
+            return (int)(13 * this.Start * this.End);
         }
 
         public static bool operator ==(DownloadRange a, DownloadRange b)

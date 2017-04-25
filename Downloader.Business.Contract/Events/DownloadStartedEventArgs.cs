@@ -11,7 +11,7 @@ namespace Toqe.Downloader.Business.Contract.Events
         {
         }
 
-        public DownloadStartedEventArgs(IDownload download, DownloadCheckResult checkResult, int alreadyDownloadedSize = 0)
+        public DownloadStartedEventArgs(IDownload download, DownloadCheckResult checkResult, long alreadyDownloadedSize = 0)
         {
             this.Download = download;
             this.CheckResult = checkResult;
@@ -20,6 +20,6 @@ namespace Toqe.Downloader.Business.Contract.Events
 
         public DownloadCheckResult CheckResult { get; set; }
 
-        public int AlreadyDownloadedSize { get; set; }
+        public long AlreadyDownloadedSize { get; set; }
     }
 }

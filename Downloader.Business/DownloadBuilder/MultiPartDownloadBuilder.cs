@@ -45,7 +45,7 @@ namespace Toqe.Downloader.Business.DownloadBuilder
             this.alreadyDownloadedRanges = alreadyDownloadedRanges ?? new List<DownloadRange>();
         }
 
-        public IDownload Build(Uri url, int bufferSize, int? offset, int? maxReadBytes)
+        public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
             return new MultiPartDownload(url, bufferSize, this.numberOfParts, this.downloadBuilder, this.requestBuilder, this.downloadChecker, this.alreadyDownloadedRanges);
         }

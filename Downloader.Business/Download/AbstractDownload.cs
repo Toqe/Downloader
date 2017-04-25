@@ -27,9 +27,9 @@ namespace Toqe.Downloader.Business.Download
 
         protected int bufferSize;
 
-        protected int? offset;
+        protected long? offset;
 
-        protected int? maxReadBytes;
+        protected long? maxReadBytes;
 
         protected IWebRequestBuilder requestBuilder;
 
@@ -39,7 +39,7 @@ namespace Toqe.Downloader.Business.Download
 
         protected readonly object monitor = new object();
 
-        public AbstractDownload(Uri url, int bufferSize, int? offset, int? maxReadBytes, IWebRequestBuilder requestBuilder, IDownloadChecker downloadChecker)
+        public AbstractDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, IWebRequestBuilder requestBuilder, IDownloadChecker downloadChecker)
         {
             if (url == null)
                 throw new ArgumentNullException("url");

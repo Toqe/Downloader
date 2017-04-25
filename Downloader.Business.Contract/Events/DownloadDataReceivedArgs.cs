@@ -11,7 +11,7 @@ namespace Toqe.Downloader.Business.Contract.Events
         {
         }
 
-        public DownloadDataReceivedEventArgs(IDownload download, byte[] data, int offset, int count)
+        public DownloadDataReceivedEventArgs(IDownload download, byte[] data, long offset, int count)
         {
             this.Download = download;
             this.Data = data;
@@ -21,7 +21,7 @@ namespace Toqe.Downloader.Business.Contract.Events
 
         public byte[] Data { get; set; }
 
-        public int Offset { get; set; }
+        public long Offset { get; set; }
 
         public int Count { get; set; }
     }

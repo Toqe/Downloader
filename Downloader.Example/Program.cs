@@ -19,7 +19,7 @@ namespace Downloader.Example
         public static void Main()
         {
             // Please insert an URL of a large file here, otherwise the download will be finished too quickly to really demonstrate the functionality.
-            var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
+            var url = new Uri("http://speedtest.tele2.net/10GB.zip");
             var file = new System.IO.FileInfo("README.md");
             var requestBuilder = new SimpleWebRequestBuilder();
             var dlChecker = new DownloadChecker();

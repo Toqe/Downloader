@@ -135,7 +135,7 @@ namespace Toqe.Downloader.Business.Download
             }
         }
 
-        private List<DownloadRange> DetermineToDoRanges(int fileSize, List<DownloadRange> alreadyDoneRanges)
+        private List<DownloadRange> DetermineToDoRanges(long fileSize, List<DownloadRange> alreadyDoneRanges)
         {
             var result = new List<DownloadRange>();
 

@@ -60,7 +60,7 @@ namespace Toqe.Downloader.Business.Observer
             }
         }
 
-        private void WriteToFile(byte[] data, int offset, int count)
+        private void WriteToFile(byte[] data, long offset, int count)
         {
             lock (this.monitor)
             {
