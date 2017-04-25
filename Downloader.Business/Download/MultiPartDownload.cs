@@ -7,6 +7,7 @@ using System.Threading;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Enums;
 using Toqe.Downloader.Business.Contract.Events;
+using Toqe.Downloader.Business.Contract.Exceptions;
 using Toqe.Downloader.Business.Utils;
 
 namespace Toqe.Downloader.Business.Download
@@ -84,8 +85,11 @@ namespace Toqe.Downloader.Business.Download
         {
             var downloadCheck = this.downloadChecker.CheckDownload(this.url, this.requestBuilder);
 
+            if (!downloadCheck.Success)
+                throw new DownloadCheckNotSuccessfulException("Download check was not successful. HTTP status code: " + downloadCheck.StatusCode, downloadCheck.Exception, downloadCheck);
+
             if (!downloadCheck.SupportsResume)
-                throw new InvalidOperationException("Resuming not supported");
+                throw new ResumingNotSupportedException();
 
             this.OnDownloadStarted(new DownloadStartedEventArgs(this, downloadCheck, this.AlreadyDownloadedRanges.Sum(x => x.Length)));
 

@@ -6,7 +6,11 @@ namespace Toqe.Downloader.Business.Contract
 {
     public class DownloadCheckResult
     {
+        public bool Success { get; set; }
+
         public int Size { get; set; }
+
+        public int? StatusCode { get; set; }
 
         public bool SupportsResume { get; set; }
 

@@ -14,6 +14,8 @@ namespace Toqe.Downloader.Business.Utils
             var acceptRanges = response.Headers["Accept-Ranges"];
             result.SupportsResume = !string.IsNullOrEmpty(acceptRanges) && acceptRanges.ToLower().Contains("bytes");
             result.Size = (int)response.ContentLength;
+            result.StatusCode = (int?)(response as HttpWebResponse)?.StatusCode;
+            result.Success = true;
             return result;
         }
 
@@ -27,6 +29,10 @@ namespace Toqe.Downloader.Business.Utils
                 {
                     return CheckDownload(response);
                 }
+            }
+            catch (WebException ex)
+            {
+                return new DownloadCheckResult() { Exception = ex, StatusCode = (int)(ex.Response as HttpWebResponse)?.StatusCode };
             }
             catch (Exception ex)
             {

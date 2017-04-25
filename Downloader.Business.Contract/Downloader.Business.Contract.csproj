@@ -48,6 +48,8 @@
     <Compile Include="Events\DownloadStartedEventArgs.cs" />
     <Compile Include="Enums\DownloadState.cs" />
     <Compile Include="Enums\DownloadStopType.cs" />
+    <Compile Include="Exceptions\DownloadCheckNotSuccessfulException.cs" />
+    <Compile Include="Exceptions\ResumingNotSupportedException.cs" />
     <Compile Include="IDownload.cs" />
     <Compile Include="IDownloadBuilder.cs" />
     <Compile Include="IDownloadChecker.cs" />
