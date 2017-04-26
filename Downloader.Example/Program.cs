@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Events;
@@ -18,6 +16,8 @@ namespace Downloader.Example
 
         public static void Main()
         {
+            bool useDownloadSpeedThrottling = false;
+
             // Please insert an URL of a large file here, otherwise the download will be finished too quickly to really demonstrate the functionality.
             var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
             var file = new System.IO.FileInfo("README.md");
@@ -32,10 +32,17 @@ namespace Downloader.Example
             var bufferSize = 4096;
             var numberOfParts = 4;
             var download = new MultiPartDownload(url, bufferSize, numberOfParts, resumingDlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
-            var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 32);
+            var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 128);
             speedMonitor.Attach(download);
             var progressMonitor = new DownloadProgressMonitor();
             progressMonitor.Attach(download);
+
+            if (useDownloadSpeedThrottling)
+            {
+                var downloadThrottling = new DownloadThrottling(maxBytesPerSecond: 200 * 1024, maxSampleCount: 128);
+                downloadThrottling.Attach(download);
+            }
+
             var dlSaver = new DownloadToFileSaver(file);
             dlSaver.Attach(download);
             download.DownloadCompleted += OnCompleted;
