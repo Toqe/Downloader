@@ -45,16 +45,20 @@ namespace Downloader.Example
             {
                 Thread.Sleep(1000);
 
-                var percent = progressMonitor.GetCurrentProgressPercentage(download) * 100;
-                var alreadyDownloadedSize = (progressMonitor.GetCurrentProgressInBytes(download) / 1024);
-                var totalDownloadSize = (progressMonitor.GetTotalFilesizeInBytes(download) / 1024);
-                var speed = (speedMonitor.GetCurrentBytesPerSecond() / 1024);
-                var remainingTime = (progressMonitor.GetTotalFilesizeInBytes(download) - progressMonitor.GetCurrentProgressInBytes(download)) / speedMonitor.GetCurrentBytesPerSecond();
+                var alreadyDownloadedSizeInBytes = progressMonitor.GetCurrentProgressInBytes(download);
+                var totalDownloadSizeInBytes = progressMonitor.GetTotalFilesizeInBytes(download);
+                var currentSpeedInBytesPerSecond = speedMonitor.GetCurrentBytesPerSecond();
+
+                var currentProgressInPercent = progressMonitor.GetCurrentProgressPercentage(download) * 100;
+                var alreadyDownloadedSizeInKiB = (alreadyDownloadedSizeInBytes / 1024);
+                var totalDownloadSizeInKiB = (totalDownloadSizeInBytes / 1024);
+                var currentSpeedInKiBPerSecond = (currentSpeedInBytesPerSecond / 1024);
+                var remainingTimeInSeconds = currentSpeedInBytesPerSecond == 0 ? 0 : (totalDownloadSizeInBytes - alreadyDownloadedSizeInBytes) / currentSpeedInBytesPerSecond;
 
                 Console.WriteLine(
-                    "Progress: " + percent + "% " + "(" + alreadyDownloadedSize + " of " + totalDownloadSize + " KiB)" +
-                    "   Speed: " + speed + " KiB/sec." +
-                    "   Remaining time: " + remainingTime + " sec.");
+                    "Progress: " + currentProgressInPercent + "% " + "(" + alreadyDownloadedSizeInKiB + " of " + totalDownloadSizeInKiB + " KiB)" +
+                    "   Speed: " + currentSpeedInKiBPerSecond + " KiB/sec." +
+                    "   Remaining time: " + remainingTimeInSeconds + " sec.");
             }
         }
 
