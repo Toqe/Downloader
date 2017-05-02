@@ -29,3 +29,6 @@ download.Start();
 ```
 
 For a more sophisticated example also demonstrating the download observers functionality, please have a look at the Downloader.Example project.
+
+## Note on the number of concurrent/parallel downloads ##
+.NET by default limits the number of concurrent connections. You can bypass this limit by manually setting the static `System.Net.ServicePointManager.DefaultConnectionLimit` property to a value appropriate to your application. Please also have a look at the documentation in the [MSDN](https://msdn.microsoft.com/en-us/library/system.net.servicepointmanager.defaultconnectionlimit.aspx)
