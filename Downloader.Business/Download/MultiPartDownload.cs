@@ -54,7 +54,8 @@ namespace Toqe.Downloader.Business.Download
 
         protected override void OnStart()
         {
-            this.StartThread(this.DetermineFileSizeAndStartDownloads, "MultiPartDownload Main");
+            var downloadCheck = this.PerformInitialDownloadCheck();
+            this.DetermineFileSizeAndStartDownloads(downloadCheck);
         }
 
         protected override void OnStop()
@@ -81,7 +82,7 @@ namespace Toqe.Downloader.Business.Download
             }
         }
 
-        private void DetermineFileSizeAndStartDownloads()
+        private DownloadCheckResult PerformInitialDownloadCheck()
         {
             var downloadCheck = this.downloadChecker.CheckDownload(this.url, this.requestBuilder);
 
@@ -93,6 +94,11 @@ namespace Toqe.Downloader.Business.Download
 
             this.OnDownloadStarted(new DownloadStartedEventArgs(this, downloadCheck, this.AlreadyDownloadedRanges.Sum(x => x.Length)));
 
+            return downloadCheck;
+        }
+
+        private void DetermineFileSizeAndStartDownloads(DownloadCheckResult downloadCheck)
+        {
             lock (this.monitor)
             {
                 this.ToDoRanges = this.DetermineToDoRanges(downloadCheck.Size, this.AlreadyDownloadedRanges);
