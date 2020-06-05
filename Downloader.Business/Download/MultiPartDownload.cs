@@ -101,10 +101,17 @@ namespace Toqe.Downloader.Business.Download
         {
             lock (this.monitor)
             {
+                if (this.AlreadyDownloadedRanges.Count == 1 && this.AlreadyDownloadedRanges[0].Length == downloadCheck.Size)
+                {
+                    this.state = DownloadState.Finished;
+                    OnDownloadCompleted(new DownloadEventArgs(this));
+                    return;
+                }
+
                 this.ToDoRanges = this.DetermineToDoRanges(downloadCheck.Size, this.AlreadyDownloadedRanges);
                 this.SplitToDoRangesForNumberOfParts();
 
-                for (int i = 0; i < this.numberOfParts; i++)
+                for (int i = 0; i < this.ToDoRanges.Count; i++)
                 {
                     var todoRange = this.ToDoRanges[i];
                     StartDownload(todoRange);
@@ -117,6 +124,11 @@ namespace Toqe.Downloader.Business.Download
             while (this.ToDoRanges.Count < this.numberOfParts)
             {
                 var maxRange = this.ToDoRanges.FirstOrDefault(r => r.Length == this.ToDoRanges.Max(r2 => r2.Length));
+                if (maxRange == null)
+                {
+                    return;
+                }
+
                 this.ToDoRanges.Remove(maxRange);
                 var range1Start = maxRange.Start;
                 var range1Length = maxRange.Length / 2;
