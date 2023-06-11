@@ -3,7 +3,11 @@ Downloader
 
 A library for resuming and multi-part/multi-threaded downloads in .NET written in C#
 
-The library uses .NET 6.0 and threads to support all platforms from Windows Vista on.
+Forked from: [Toqe/Downloader](https://github.com/Toqe/Downloader)
+
+Original author: [Toqe](https://github.com/Toqe)
+
+The library uses .NET 6.0.
 
 Example for usage:
 Start a resuming download with 4 parts of this README.md to local file README.md.
