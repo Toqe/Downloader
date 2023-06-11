@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Events;
@@ -20,15 +17,12 @@ namespace Toqe.Downloader.Business.Observer
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentException("filename");
 
-            this.file = new FileInfo(filename);
+            file = new FileInfo(filename);
         }
 
         public DownloadToFileSaver(FileInfo file)
         {
-            if (file == null)
-                throw new ArgumentNullException("file");
-
-            this.file = file;
+            this.file = file ?? throw new ArgumentNullException(nameof(file));
         }
 
         protected override void OnAttach(IDownload download)
@@ -51,85 +45,82 @@ namespace Toqe.Downloader.Business.Observer
 
         private void OpenFileIfNecessary()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.fileStream == null)
-                {
-                    this.fileStream = this.file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-                }
+                fileStream ??= file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
             }
         }
 
         private void WriteToFile(byte[] data, long offset, int count)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.OpenFileIfNecessary();
+                OpenFileIfNecessary();
 
-                this.fileStream.Position = offset;
-                this.fileStream.Write(data, 0, count);
+                fileStream.Position = offset;
+                fileStream.Write(data, 0, count);
             }
         }
 
         private void CloseFile()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.fileStream != null)
+                if (fileStream != null)
                 {
-                    this.fileStream.Flush();
-                    this.fileStream.Close();
-                    this.fileStream.Dispose();
-                    this.fileStream = null;
+                    fileStream.Flush();
+                    fileStream.Close();
+                    fileStream.Dispose();
+                    fileStream = null;
                 }
             }
         }
 
         private void downloadDataReceived(DownloadDataReceivedEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.WriteToFile(args.Data, args.Offset, args.Count);
+                WriteToFile(args.Data, args.Offset, args.Count);
             }
         }
 
         private void downloadStarted(DownloadStartedEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.OpenFileIfNecessary();
+                OpenFileIfNecessary();
             }
         }
 
         private void downloadCompleted(DownloadEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.CloseFile();
+                CloseFile();
             }
         }
 
         private void downloadStopped(DownloadEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.CloseFile();
+                CloseFile();
             }
         }
 
         private void downloadCancelled(DownloadCancelledEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.CloseFile();
+                CloseFile();
             }
         }
 
         public override void Dispose()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.CloseFile();
+                CloseFile();
             }
 
             base.Dispose();

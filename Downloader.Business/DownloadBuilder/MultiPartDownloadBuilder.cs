@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Download;
 
@@ -28,26 +26,16 @@ namespace Toqe.Downloader.Business.DownloadBuilder
         {
             if (numberOfParts <= 0)
                 throw new ArgumentException("numberOfParts <= 0");
-
-            if (downloadBuilder == null)
-                throw new ArgumentNullException("downloadBuilder");
-
-            if (requestBuilder == null)
-                throw new ArgumentNullException("requestBuilder");
-
-            if (downloadChecker == null)
-                throw new ArgumentNullException("downloadChecker");
-
             this.numberOfParts = numberOfParts;
-            this.downloadBuilder = downloadBuilder;
-            this.requestBuilder = requestBuilder;
-            this.downloadChecker = downloadChecker;
+            this.downloadBuilder = downloadBuilder ?? throw new ArgumentNullException(nameof(downloadBuilder));
+            this.requestBuilder = requestBuilder ?? throw new ArgumentNullException(nameof(requestBuilder));
+            this.downloadChecker = downloadChecker ?? throw new ArgumentNullException(nameof(downloadChecker));
             this.alreadyDownloadedRanges = alreadyDownloadedRanges ?? new List<DownloadRange>();
         }
 
         public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
-            return new MultiPartDownload(url, bufferSize, this.numberOfParts, this.downloadBuilder, this.requestBuilder, this.downloadChecker, this.alreadyDownloadedRanges);
+            return new MultiPartDownload(url, bufferSize, numberOfParts, downloadBuilder, requestBuilder, downloadChecker, alreadyDownloadedRanges);
         }
     }
 }

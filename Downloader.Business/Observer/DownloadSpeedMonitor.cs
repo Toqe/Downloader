@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Events;
 
@@ -23,15 +22,15 @@ namespace Toqe.Downloader.Business.Observer
 
         public int GetCurrentBytesPerSecond()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.samples.Count < 2)
+                if (samples.Count < 2)
                 {
                     return 0;
                 }
 
-                var sumOfBytesFromCalls = this.samples.Sum(s => s.Count);
-                var ticksBetweenCalls = (DateTime.UtcNow - this.samples[0].Timestamp).Ticks;
+                var sumOfBytesFromCalls = samples.Sum(s => s.Count);
+                var ticksBetweenCalls = (DateTime.UtcNow - samples[0].Timestamp).Ticks;
 
                 return (int)((double)sumOfBytesFromCalls / ticksBetweenCalls * 10000 * 1000);
             }
@@ -49,7 +48,7 @@ namespace Toqe.Downloader.Business.Observer
 
         private void AddSample(int count)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 var sample = new DownloadDataSample()
                 {
@@ -57,11 +56,11 @@ namespace Toqe.Downloader.Business.Observer
                     Timestamp = DateTime.UtcNow
                 };
 
-                this.samples.Add(sample);
+                samples.Add(sample);
 
-                if (this.samples.Count > this.maxSampleCount)
+                if (samples.Count > maxSampleCount)
                 {
-                    this.samples.RemoveAt(0);
+                    samples.RemoveAt(0);
                 }
             }
         }

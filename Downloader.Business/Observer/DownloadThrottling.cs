@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Events;
@@ -32,54 +31,54 @@ namespace Toqe.Downloader.Business.Observer
 
             this.maxBytesPerSecond = maxBytesPerSecond;
             this.maxSampleCount = maxSampleCount;
-            this.samples = new List<DownloadDataSample>();
+            samples = new List<DownloadDataSample>();
         }
 
         public void Attach(IDownload download)
         {
             if (download == null)
-                throw new ArgumentNullException("download");
+                throw new ArgumentNullException(nameof(download));
 
-            download.DataReceived += this.downloadDataReceived;
+            download.DataReceived += downloadDataReceived;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.downloads.Add(download);
+                downloads.Add(download);
             }
         }
 
         public void Detach(IDownload download)
         {
             if (download == null)
-                throw new ArgumentNullException("download");
+                throw new ArgumentNullException(nameof(download));
 
-            download.DataReceived -= this.downloadDataReceived;
+            download.DataReceived -= downloadDataReceived;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.downloads.Remove(download);
+                downloads.Remove(download);
             }
         }
 
         public void DetachAll()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                foreach (var download in this.downloads)
+                foreach (var download in downloads)
                 {
-                    this.Detach(download);
+                    Detach(download);
                 }
             }
         }
 
         public void Dispose()
         {
-            this.DetachAll();
+            DetachAll();
         }
 
         private void AddSample(int count)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 var sample = new DownloadDataSample()
                 {
@@ -87,41 +86,41 @@ namespace Toqe.Downloader.Business.Observer
                     Timestamp = DateTime.UtcNow
                 };
 
-                this.samples.Add(sample);
+                samples.Add(sample);
 
-                if (this.samples.Count > this.maxSampleCount)
+                if (samples.Count > maxSampleCount)
                 {
-                    this.samples.RemoveAt(0);
+                    samples.RemoveAt(0);
                 }
             }
         }
 
         private int CalculateWaitingTime()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.samples.Count < 2)
+                if (samples.Count < 2)
                 {
                     return 0;
                 }
 
-                var averageBytesPerCall = this.samples.Average(s => s.Count);
+                var averageBytesPerCall = samples.Average(s => s.Count);
                 double sumOfTicksBetweenCalls = 0;
 
                 // 1 tick = 100 nano seconds, 1 ms ^= 10.000 ticks
-                for (var i = 0; i < this.samples.Count - 1; i++)
+                for (var i = 0; i < samples.Count - 1; i++)
                 {
-                    sumOfTicksBetweenCalls += (this.samples[i + 1].Timestamp - this.samples[i].Timestamp).Ticks;
+                    sumOfTicksBetweenCalls += (samples[i + 1].Timestamp - samples[i].Timestamp).Ticks;
                 }
 
-                var averageTicksBetweenCalls = sumOfTicksBetweenCalls / (this.samples.Count - 1);
+                var averageTicksBetweenCalls = sumOfTicksBetweenCalls / (samples.Count - 1);
                 var timePerNetworkRequestInMilliseconds = averageTicksBetweenCalls / 10000 - floatingWaitingTimeInMilliseconds;
 
                 var currentBytesPerMillisecond = averageBytesPerCall / averageTicksBetweenCalls * 10000;
-                var maxBytesPerMillisecond = (double)this.maxBytesPerSecond / 1000;
+                var maxBytesPerMillisecond = (double)maxBytesPerSecond / 1000;
 
                 var waitingTimeInMilliseconds = averageBytesPerCall / maxBytesPerMillisecond - timePerNetworkRequestInMilliseconds;
-                this.floatingWaitingTimeInMilliseconds = waitingTimeInMilliseconds * 0.6 + this.floatingWaitingTimeInMilliseconds * 0.4;
+                floatingWaitingTimeInMilliseconds = waitingTimeInMilliseconds * 0.6 + floatingWaitingTimeInMilliseconds * 0.4;
 
                 return (int)waitingTimeInMilliseconds;
             }
@@ -129,8 +128,8 @@ namespace Toqe.Downloader.Business.Observer
 
         private void downloadDataReceived(DownloadDataReceivedEventArgs args)
         {
-            this.AddSample(args.Count);
-            var waitingTime = this.CalculateWaitingTime();
+            AddSample(args.Count);
+            var waitingTime = CalculateWaitingTime();
 
             if (waitingTime > 0)
             {

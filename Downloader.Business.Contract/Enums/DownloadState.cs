@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Toqe.Downloader.Business.Contract.Enums
+﻿namespace Toqe.Downloader.Business.Contract.Enums
 {
     public enum DownloadState
     {

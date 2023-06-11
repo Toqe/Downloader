@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 
 namespace Downloader.Test
@@ -10,7 +7,7 @@ namespace Downloader.Test
     {
         public DownloadCheckResult CheckDownload(Uri url, IWebRequestBuilder requestBuilder)
         {
-            return this.CheckDownload(null);
+            return CheckDownload(null);
         }
 
         public DownloadCheckResult CheckDownload(System.Net.WebResponse response)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Events;
 
@@ -15,7 +12,7 @@ namespace Toqe.Downloader.Business.Observer
 
         public float GetCurrentProgressPercentage(IDownload download)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 if (!downloadSizes.ContainsKey(download) || !alreadyDownloadedSizes.ContainsKey(download) || downloadSizes[download] <= 0)
                 {
@@ -28,7 +25,7 @@ namespace Toqe.Downloader.Business.Observer
 
         public long GetCurrentProgressInBytes(IDownload download)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 if (!alreadyDownloadedSizes.ContainsKey(download))
                 {
@@ -41,7 +38,7 @@ namespace Toqe.Downloader.Business.Observer
 
         public long GetTotalFilesizeInBytes(IDownload download)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 if (!downloadSizes.ContainsKey(download) || downloadSizes[download] <= 0)
                 {
@@ -65,47 +62,47 @@ namespace Toqe.Downloader.Business.Observer
             download.DataReceived -= OnDownloadDataReceived;
             download.DownloadCompleted -= OnDownloadCompleted;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.downloadSizes.ContainsKey(download))
+                if (downloadSizes.ContainsKey(download))
                 {
-                    this.downloadSizes.Remove(download);
+                    downloadSizes.Remove(download);
                 }
 
-                if (this.alreadyDownloadedSizes.ContainsKey(download))
+                if (alreadyDownloadedSizes.ContainsKey(download))
                 {
-                    this.alreadyDownloadedSizes.Remove(download);
+                    alreadyDownloadedSizes.Remove(download);
                 }
             }
         }
 
         private void OnDownloadStarted(DownloadStartedEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.downloadSizes[args.Download] = args.CheckResult.Size;
-                this.alreadyDownloadedSizes[args.Download] = args.AlreadyDownloadedSize;
+                downloadSizes[args.Download] = args.CheckResult.Size;
+                alreadyDownloadedSizes[args.Download] = args.AlreadyDownloadedSize;
             }
         }
 
         private void OnDownloadDataReceived(DownloadDataReceivedEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 if (!alreadyDownloadedSizes.ContainsKey(args.Download))
                 {
-                    this.alreadyDownloadedSizes[args.Download] = 0;
+                    alreadyDownloadedSizes[args.Download] = 0;
                 }
 
-                this.alreadyDownloadedSizes[args.Download] += args.Count;
+                alreadyDownloadedSizes[args.Download] += args.Count;
             }
         }
 
         private void OnDownloadCompleted(DownloadEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.alreadyDownloadedSizes[args.Download] = this.downloadSizes[args.Download];
+                alreadyDownloadedSizes[args.Download] = downloadSizes[args.Download];
             }
         }
     }

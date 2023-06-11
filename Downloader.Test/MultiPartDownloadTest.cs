@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Toqe.Downloader.Business.Contract.Events;
 using Toqe.Downloader.Business.DownloadBuilder;
 using Xunit;

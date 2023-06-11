@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Toqe.Downloader.Business.Contract;
+﻿using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Utils;
 using Xunit;
 

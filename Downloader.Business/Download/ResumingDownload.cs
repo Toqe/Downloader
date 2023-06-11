@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text;
 using System.Threading;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Enums;
@@ -41,34 +37,30 @@ namespace Toqe.Downloader.Business.Download
 
             if (timeToRetry <= 0)
                 throw new ArgumentException("timeToRetry <= 0");
-
-            if (downloadBuilder == null)
-                throw new ArgumentException("downloadBuilder");
-
             this.timeForHeartbeat = timeForHeartbeat;
             this.timeToRetry = timeToRetry;
             this.maxRetries = maxRetries;
-            this.downloadBuilder = downloadBuilder;
+            this.downloadBuilder = downloadBuilder ?? throw new ArgumentNullException("downloadBuilder");
         }
 
         protected override void OnStart()
         {
-            StartThread(this.StartDownload, string.Format("ResumingDownload offset {0} length {1} Main", this.offset, this.maxReadBytes));
-            StartThread(this.CheckHeartbeat, string.Format("ResumingDownload offset {0} length {1} Heartbeat", this.offset, this.maxReadBytes));
+            StartThread(StartDownload, string.Format("ResumingDownload offset {0} length {1} Main", offset, maxReadBytes));
+            StartThread(CheckHeartbeat, string.Format("ResumingDownload offset {0} length {1} Heartbeat", offset, maxReadBytes));
         }
 
         protected override void OnStop()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.stopping = true;
-                this.DoStopIfNecessary();
+                stopping = true;
+                DoStopIfNecessary();
             }
         }
 
         private void StartDownload()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
                 StartNewDownload();
             }
@@ -76,7 +68,7 @@ namespace Toqe.Downloader.Business.Download
 
         private void StartNewDownload()
         {
-            this.currentOffset = this.offset.HasValue ? this.offset.Value : 0;
+            currentOffset = offset ?? 0;
             BuildDownload();
         }
 
@@ -84,23 +76,23 @@ namespace Toqe.Downloader.Business.Download
         {
             while (true)
             {
-                Thread.Sleep(this.timeForHeartbeat);
+                Thread.Sleep(timeForHeartbeat);
 
-                lock (this.monitor)
+                lock (monitor)
                 {
-                    if (this.DoStopIfNecessary())
+                    if (DoStopIfNecessary())
                     {
                         return;
                     }
 
-                    if (DateTime.Now - this.lastHeartbeat > TimeSpan.FromMilliseconds(this.timeForHeartbeat))
+                    if (DateTime.Now - lastHeartbeat > TimeSpan.FromMilliseconds(timeForHeartbeat))
                     {
                         CountRetryAndCancelIfMaxRetriesReached();
 
-                        if (this.currentDownload != null)
+                        if (currentDownload != null)
                         {
-                            this.CloseDownload();
-                            StartThread(this.BuildDownload, Thread.CurrentThread.Name + "-byHeartbeat");
+                            CloseDownload();
+                            StartThread(BuildDownload, Thread.CurrentThread.Name + "-byHeartbeat");
                         }
                     }
                 }
@@ -109,64 +101,64 @@ namespace Toqe.Downloader.Business.Download
 
         private void CountRetryAndCancelIfMaxRetriesReached()
         {
-            if (this.maxRetries.HasValue && this.currentRetry >= this.maxRetries)
+            if (maxRetries.HasValue && currentRetry >= maxRetries)
             {
-                this.state = DownloadState.Cancelled;
-                this.OnDownloadCancelled(new DownloadCancelledEventArgs(this, new TooManyRetriesException()));
-                this.DoStop(DownloadStopType.WithoutNotification);
+                state = DownloadState.Cancelled;
+                OnDownloadCancelled(new DownloadCancelledEventArgs(this, new TooManyRetriesException()));
+                DoStop(DownloadStopType.WithoutNotification);
             }
 
-            this.currentRetry++;
+            currentRetry++;
         }
 
         private void BuildDownload()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.DoStopIfNecessary())
+                if (DoStopIfNecessary())
                 {
                     return;
                 }
 
-                long? currentMaxReadBytes = this.maxReadBytes.HasValue ? (long?)this.maxReadBytes.Value - this.sumOfBytesRead : null;
+                long? currentMaxReadBytes = maxReadBytes.HasValue ? (long?)maxReadBytes.Value - sumOfBytesRead : null;
 
-                this.currentDownload = this.downloadBuilder.Build(this.url, this.bufferSize, this.currentOffset, currentMaxReadBytes);
-                this.currentDownload.DownloadStarted += downloadStarted;
-                this.currentDownload.DownloadCancelled += downloadCancelled;
-                this.currentDownload.DownloadCompleted += downloadCompleted;
-                this.currentDownload.DataReceived += downloadDataReceived;
-                StartThread(this.currentDownload.Start, Thread.CurrentThread.Name + "-buildDownload");
+                currentDownload = downloadBuilder.Build(url, bufferSize, currentOffset, currentMaxReadBytes);
+                currentDownload.DownloadStarted += downloadStarted;
+                currentDownload.DownloadCancelled += downloadCancelled;
+                currentDownload.DownloadCompleted += downloadCompleted;
+                currentDownload.DataReceived += downloadDataReceived;
+                StartThread(currentDownload.Start, Thread.CurrentThread.Name + "-buildDownload");
             }
         }
 
         private bool DoStopIfNecessary()
         {
-            if (this.stopping)
+            if (stopping)
             {
-                this.CloseDownload();
+                CloseDownload();
 
-                lock (this.monitor)
+                lock (monitor)
                 {
-                    this.state = DownloadState.Stopped;
+                    state = DownloadState.Stopped;
                 }
             }
 
-            return this.stopping;
+            return stopping;
         }
 
         private void SleepThenBuildDownload()
         {
-            Thread.Sleep(this.timeToRetry);
+            Thread.Sleep(timeToRetry);
             BuildDownload();
         }
 
         private void CloseDownload()
         {
-            if (this.currentDownload != null)
+            if (currentDownload != null)
             {
-                this.currentDownload.DetachAllHandlers();
-                this.currentDownload.Stop();
-                this.currentDownload = null;
+                currentDownload.DetachAllHandlers();
+                currentDownload.Stop();
+                currentDownload = null;
             }
         }
 
@@ -177,24 +169,24 @@ namespace Toqe.Downloader.Business.Download
             var data = args.Data;
             long previousOffset = 0;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.currentDownload == download)
+                if (currentDownload == download)
                 {
-                    if (this.DoStopIfNecessary())
+                    if (DoStopIfNecessary())
                     {
                         return;
                     }
 
-                    previousOffset = this.currentOffset;
+                    previousOffset = currentOffset;
 
-                    this.lastHeartbeat = DateTime.Now;
-                    this.currentOffset += count;
-                    this.sumOfBytesRead += count;
+                    lastHeartbeat = DateTime.Now;
+                    currentOffset += count;
+                    sumOfBytesRead += count;
                 }
             }
 
-            this.OnDataReceived(new DownloadDataReceivedEventArgs(this, data, previousOffset, count));
+            OnDataReceived(new DownloadDataReceivedEventArgs(this, data, previousOffset, count));
         }
 
         private void downloadStarted(DownloadStartedEventArgs args)
@@ -202,50 +194,50 @@ namespace Toqe.Downloader.Business.Download
             var download = args.Download;
             bool shouldNotifyDownloadStarted = false;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (download == this.currentDownload)
+                if (download == currentDownload)
                 {
-                    if (!this.downloadStartedNotified)
+                    if (!downloadStartedNotified)
                     {
                         shouldNotifyDownloadStarted = true;
-                        this.downloadStartedNotified = true;
+                        downloadStartedNotified = true;
                     }
                 }
             }
 
             if (shouldNotifyDownloadStarted)
             {
-                this.OnDownloadStarted(new DownloadStartedEventArgs(this, args.CheckResult, args.AlreadyDownloadedSize));
+                OnDownloadStarted(new DownloadStartedEventArgs(this, args.CheckResult, args.AlreadyDownloadedSize));
             }
         }
 
         private void downloadCompleted(DownloadEventArgs args)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.CloseDownload();
-                this.state = DownloadState.Finished;
-                this.stopping = true;
+                CloseDownload();
+                state = DownloadState.Finished;
+                stopping = true;
             }
 
-            this.OnDownloadCompleted(new DownloadEventArgs(this));
+            OnDownloadCompleted(new DownloadEventArgs(this));
         }
 
         private void downloadCancelled(DownloadCancelledEventArgs args)
         {
             var download = args.Download;
 
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (download == this.currentDownload)
+                if (download == currentDownload)
                 {
                     CountRetryAndCancelIfMaxRetriesReached();
 
-                    if (this.currentDownload != null)
+                    if (currentDownload != null)
                     {
-                        this.currentDownload = null;
-                        StartThread(this.SleepThenBuildDownload, Thread.CurrentThread.Name + "-afterCancel");
+                        currentDownload = null;
+                        StartThread(SleepThenBuildDownload, Thread.CurrentThread.Name + "-afterCancel");
                     }
                 }
             }

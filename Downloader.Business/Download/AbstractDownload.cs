@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using System.Threading;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Enums;
@@ -41,9 +38,6 @@ namespace Toqe.Downloader.Business.Download
 
         public AbstractDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, IWebRequestBuilder requestBuilder, IDownloadChecker downloadChecker)
         {
-            if (url == null)
-                throw new ArgumentNullException("url");
-
             if (bufferSize < 0)
                 throw new ArgumentException("bufferSize < 0");
 
@@ -53,100 +47,100 @@ namespace Toqe.Downloader.Business.Download
             if (maxReadBytes.HasValue && maxReadBytes.Value < 0)
                 throw new ArgumentException("maxReadBytes < 0");
 
-            this.url = url;
+            this.url = url ?? throw new ArgumentNullException(nameof(url));
             this.bufferSize = bufferSize;
             this.offset = offset;
             this.maxReadBytes = maxReadBytes;
             this.requestBuilder = requestBuilder;
             this.downloadChecker = downloadChecker;
 
-            this.state = DownloadState.Initialized;
+            state = DownloadState.Initialized;
         }
 
         public DownloadState State
         {
-            get { return this.state; }
+            get { return state; }
         }
 
         public virtual void Start()
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                if (this.state != DownloadState.Initialized)
+                if (state != DownloadState.Initialized)
                 {
-                    throw new InvalidOperationException("Invalid state: " + this.state);
+                    throw new InvalidOperationException("Invalid state: " + state);
                 }
 
-                this.state = DownloadState.Running;
+                state = DownloadState.Running;
             }
 
-            this.OnStart();
+            OnStart();
         }
 
         public virtual void Stop()
         {
-            this.DoStop(DownloadStopType.WithNotification);
+            DoStop(DownloadStopType.WithNotification);
         }
 
         protected virtual void DoStop(DownloadStopType stopType)
         {
-            lock (this.monitor)
+            lock (monitor)
             {
-                this.stopping = true;
+                stopping = true;
             }
 
-            this.OnStop();
+            OnStop();
 
             if (stopType == DownloadStopType.WithNotification)
             {
-                this.OnDownloadStopped(new DownloadEventArgs(this));
+                OnDownloadStopped(new DownloadEventArgs(this));
             }
         }
 
         public virtual void Dispose()
         {
-            this.Stop();
+            Stop();
         }
 
         public virtual void DetachAllHandlers()
         {
-            if (this.DataReceived != null)
+            if (DataReceived != null)
             {
-                foreach (var i in this.DataReceived.GetInvocationList())
+                foreach (var i in DataReceived.GetInvocationList())
                 {
-                    this.DataReceived -= (DownloadDelegates.DownloadDataReceivedHandler)i;
+                    DataReceived -= (DownloadDelegates.DownloadDataReceivedHandler)i;
                 }
             }
 
-            if (this.DownloadCancelled != null)
+            if (DownloadCancelled != null)
             {
-                foreach (var i in this.DownloadCancelled.GetInvocationList())
+                foreach (var i in DownloadCancelled.GetInvocationList())
                 {
-                    this.DownloadCancelled -= (DownloadDelegates.DownloadCancelledHandler)i;
+                    DownloadCancelled -= (DownloadDelegates.DownloadCancelledHandler)i;
                 }
             }
 
-            if (this.DownloadCompleted != null)
+            if (DownloadCompleted != null)
             {
-                foreach (var i in this.DownloadCompleted.GetInvocationList())
+                foreach (var i in DownloadCompleted.GetInvocationList())
                 {
-                    this.DownloadCompleted -= (DownloadDelegates.DownloadCompletedHandler)i;
+                    DownloadCompleted -= (DownloadDelegates.DownloadCompletedHandler)i;
                 }
             }
 
-            if (this.DownloadStopped != null)
+            if (DownloadStopped != null)
             {
-                foreach (var i in this.DownloadStopped.GetInvocationList())
+                foreach (var i in DownloadStopped.GetInvocationList())
                 {
-                    this.DownloadStopped -= (DownloadDelegates.DownloadStoppedHandler)i;
+                    DownloadStopped -= (DownloadDelegates.DownloadStoppedHandler)i;
                 }
             }
 
-            if (this.DownloadStarted != null)
+            if (DownloadStarted != null)
             {
-                foreach (var i in this.DownloadStarted.GetInvocationList())
+                foreach (var i in DownloadStarted.GetInvocationList())
                 {
-                    this.DownloadStarted -= (DownloadDelegates.DownloadStartedHandler)i;
+                    DownloadStarted -= (DownloadDelegates.DownloadStartedHandler)i;
                 }
             }
         }
@@ -171,42 +165,27 @@ namespace Toqe.Downloader.Business.Download
 
         protected virtual void OnDataReceived(DownloadDataReceivedEventArgs args)
         {
-            if (this.DataReceived != null)
-            {
-                this.DataReceived(args);
-            }
+            DataReceived?.Invoke(args);
         }
 
         protected virtual void OnDownloadStarted(DownloadStartedEventArgs args)
         {
-            if (this.DownloadStarted != null)
-            {
-                this.DownloadStarted(args);
-            }
+            DownloadStarted?.Invoke(args);
         }
 
         protected virtual void OnDownloadCompleted(DownloadEventArgs args)
         {
-            if (this.DownloadCompleted != null)
-            {
-                this.DownloadCompleted(args);
-            }
+            DownloadCompleted?.Invoke(args);
         }
 
         protected virtual void OnDownloadStopped(DownloadEventArgs args)
         {
-            if (this.DownloadStopped != null)
-            {
-                this.DownloadStopped(args);
-            }
+            DownloadStopped?.Invoke(args);
         }
 
         protected virtual void OnDownloadCancelled(DownloadCancelledEventArgs args)
         {
-            if (this.DownloadCancelled != null)
-            {
-                this.DownloadCancelled(args);
-            }
+            DownloadCancelled?.Invoke(args);
         }
     }
 }

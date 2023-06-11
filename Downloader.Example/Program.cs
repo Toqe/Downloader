@@ -19,8 +19,8 @@ namespace Downloader.Example
             bool useDownloadSpeedThrottling = false;
 
             // Please insert an URL of a large file here, otherwise the download will be finished too quickly to really demonstrate the functionality.
-            var url = new Uri("https://raw.githubusercontent.com/Toqe/Downloader/master/README.md");
-            var file = new System.IO.FileInfo("README.md");
+            var url = new Uri("https://download.visualstudio.microsoft.com/download/pr/1b55b379-5ef2-4f21-8fad-aba058913cbc/c26ee3ba55cb40407a79564e28ed6d98/dotnet-sdk-8.0.100-preview.4.23260.5-win-x64.exe");
+            var file = new System.IO.FileInfo("dotnet-sdk-8.0.100-preview.4.23260.5-win-x64.exe");
             var requestBuilder = new SimpleWebRequestBuilder();
             var dlChecker = new DownloadChecker();
             var httpDlBuilder = new SimpleDownloadBuilder(requestBuilder, dlChecker);

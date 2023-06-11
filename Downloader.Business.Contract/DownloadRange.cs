@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Toqe.Downloader.Business.Contract
+﻿namespace Toqe.Downloader.Business.Contract
 {
     public class DownloadRange
     {
@@ -12,8 +8,8 @@ namespace Toqe.Downloader.Business.Contract
 
         public DownloadRange(long start, long length)
         {
-            this.Start = start;
-            this.Length = length;
+            Start = start;
+            Length = length;
         }
 
         public long Start { get; set; }
@@ -22,10 +18,10 @@ namespace Toqe.Downloader.Business.Contract
 
         public long End
         {
-            get { return this.Start + this.Length - 1; }
+            get { return Start + Length - 1; }
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (obj == null)
             {
@@ -39,32 +35,32 @@ namespace Toqe.Downloader.Business.Contract
 
         public bool Equals(DownloadRange r)
         {
-            if ((Object)r == null)
+            if (r is null)
             {
                 return false;
             }
 
-            return (this.Start == r.Start) && (this.Length == r.Length);
+            return (Start == r.Start) && (Length == r.Length);
         }
 
         public override int GetHashCode()
         {
-            return (int)(13 * this.Start * this.End);
+            return (int)(13 * Start * End);
         }
 
         public static bool operator ==(DownloadRange a, DownloadRange b)
         {
-            if (System.Object.ReferenceEquals(a, b))
+            if (ReferenceEquals(a, b))
             {
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if ((a is null) || (b is null))
             {
                 return false;
             }
 
-            return (object)a == null ? b.Equals(a) : a.Equals(b);
+            return a is null ? b.Equals(a) : a.Equals(b);
         }
 
         public static bool operator !=(DownloadRange a, DownloadRange b)

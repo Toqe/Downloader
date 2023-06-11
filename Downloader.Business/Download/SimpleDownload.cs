@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 using Toqe.Downloader.Business.Contract.Enums;
 using Toqe.Downloader.Business.Contract.Events;
@@ -20,40 +17,38 @@ namespace Toqe.Downloader.Business.Download
         {
             try
             {
-                var request = this.requestBuilder.CreateRequest(this.url, this.offset);
+                var request = requestBuilder.CreateRequest(url, offset);
 
                 using (var response = request.GetResponse())
                 {
-                    var httpResponse = response as HttpWebResponse;
-
-                    if (httpResponse != null)
+                    if (response is HttpWebResponse httpResponse)
                     {
                         var statusCode = httpResponse.StatusCode;
 
-                        if (!(statusCode == HttpStatusCode.OK || (this.offset.HasValue && statusCode == HttpStatusCode.PartialContent)))
+                        if (!(statusCode == HttpStatusCode.OK || (offset.HasValue && statusCode == HttpStatusCode.PartialContent)))
                         {
                             throw new InvalidOperationException("Invalid HTTP status code: " + httpResponse.StatusCode);
                         }
                     }
 
-                    var checkResult = this.downloadChecker.CheckDownload(response);
+                    var checkResult = downloadChecker.CheckDownload(response);
                     var supportsResume = checkResult.SupportsResume;
-                    long currentOffset = supportsResume && this.offset.HasValue ? this.offset.Value : 0;
+                    long currentOffset = supportsResume && offset.HasValue ? offset.Value : 0;
                     long sumOfBytesRead = 0;
 
-                    this.OnDownloadStarted(new DownloadStartedEventArgs(this, checkResult, currentOffset));
+                    OnDownloadStarted(new DownloadStartedEventArgs(this, checkResult, currentOffset));
 
                     using (var stream = response.GetResponseStream())
                     {
-                        byte[] buffer = new byte[this.bufferSize];
+                        byte[] buffer = new byte[bufferSize];
 
                         while (true)
                         {
-                            lock (this.monitor)
+                            lock (monitor)
                             {
-                                if (this.stopping)
+                                if (stopping)
                                 {
-                                    this.state = DownloadState.Stopped;
+                                    state = DownloadState.Stopped;
                                     break;
                                 }
                             }
@@ -62,12 +57,12 @@ namespace Toqe.Downloader.Business.Download
 
                             if (bytesRead == 0)
                             {
-                                lock (this.monitor)
+                                lock (monitor)
                                 {
-                                    this.state = DownloadState.Finished;
+                                    state = DownloadState.Finished;
                                 }
 
-                                this.OnDownloadCompleted(new DownloadEventArgs(this));
+                                OnDownloadCompleted(new DownloadEventArgs(this));
                                 break;
                             }
 
@@ -76,26 +71,26 @@ namespace Toqe.Downloader.Business.Download
                                 var count = (int)(maxReadBytes.Value - sumOfBytesRead);
 
                                 if (count > 0)
-                                {         
-                                    this.OnDataReceived(new DownloadDataReceivedEventArgs(this, buffer, currentOffset, count));
+                                {
+                                    OnDataReceived(new DownloadDataReceivedEventArgs(this, buffer, currentOffset, count));
                                 }
                             }
                             else
                             {
-                                this.OnDataReceived(new DownloadDataReceivedEventArgs(this, buffer, currentOffset, bytesRead));
+                                OnDataReceived(new DownloadDataReceivedEventArgs(this, buffer, currentOffset, bytesRead));
                             }
 
                             currentOffset += bytesRead;
                             sumOfBytesRead += bytesRead;
 
-                            if (this.maxReadBytes.HasValue && sumOfBytesRead >= this.maxReadBytes.Value)
+                            if (maxReadBytes.HasValue && sumOfBytesRead >= maxReadBytes.Value)
                             {
-                                lock (this.monitor)
+                                lock (monitor)
                                 {
-                                    this.state = DownloadState.Finished;
+                                    state = DownloadState.Finished;
                                 }
 
-                                this.OnDownloadCompleted(new DownloadEventArgs(this));
+                                OnDownloadCompleted(new DownloadEventArgs(this));
                                 break;
                             }
                         }
@@ -104,12 +99,12 @@ namespace Toqe.Downloader.Business.Download
             }
             catch (Exception ex)
             {
-                lock (this.monitor)
+                lock (monitor)
                 {
-                    this.state = DownloadState.Cancelled;
+                    state = DownloadState.Cancelled;
                 }
 
-                this.OnDownloadCancelled(new DownloadCancelledEventArgs(this, ex));
+                OnDownloadCancelled(new DownloadCancelledEventArgs(this, ex));
             }
         }
     }

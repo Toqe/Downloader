@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 
 namespace Toqe.Downloader.Business.Utils

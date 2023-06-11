@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Toqe.Downloader.Business.Contract;
 
 namespace Downloader.Test
@@ -10,7 +8,7 @@ namespace Downloader.Test
     {
         public TestDownloadBuilder()
         {
-            this.ReturnedDownloads = new List<TestDownload>();
+            ReturnedDownloads = new List<TestDownload>();
         }
 
         public List<TestDownload> ReturnedDownloads { get; set; }
@@ -18,7 +16,7 @@ namespace Downloader.Test
         public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
             var download = new TestDownload(url, bufferSize);
-            this.ReturnedDownloads.Add(download);
+            ReturnedDownloads.Add(download);
             return download;
         }
     }

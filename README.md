@@ -3,7 +3,7 @@ Downloader
 
 A library for resuming and multi-part/multi-threaded downloads in .NET written in C#
 
-The library uses .NET 3.5 and threads to support all platforms from Windows Vista on.
+The library uses .NET 6.0 and threads to support all platforms from Windows Vista on.
 
 Example for usage:
 Start a resuming download with 4 parts of this README.md to local file README.md.
