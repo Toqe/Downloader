@@ -3,7 +3,7 @@
     <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
     <Authors>Myitian, Toqe</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <Title>Myitian.Downloader</Title>

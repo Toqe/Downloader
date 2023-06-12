@@ -7,7 +7,7 @@ namespace Myitian.Downloader.DownloadBuilder
 {
     public class MultiPartDownloadBuilder : IDownloadBuilder
     {
-        private readonly int numberOfParts;
+        public readonly int NumberOfParts;
 
         private readonly IDownloadBuilder downloadBuilder;
 
@@ -26,7 +26,7 @@ namespace Myitian.Downloader.DownloadBuilder
         {
             if (numberOfParts <= 0)
                 throw new ArgumentException("numberOfParts <= 0");
-            this.numberOfParts = numberOfParts;
+            this.NumberOfParts = numberOfParts;
             this.downloadBuilder = downloadBuilder ?? throw new ArgumentNullException(nameof(downloadBuilder));
             this.requestBuilder = requestBuilder ?? throw new ArgumentNullException(nameof(requestBuilder));
             this.downloadChecker = downloadChecker ?? throw new ArgumentNullException(nameof(downloadChecker));
@@ -35,7 +35,7 @@ namespace Myitian.Downloader.DownloadBuilder
 
         public IDownloader Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
-            return new MultiPartDownloader(url, bufferSize, numberOfParts, downloadBuilder, requestBuilder, downloadChecker, alreadyDownloadedRanges);
+            return new MultiPartDownloader(url, bufferSize, NumberOfParts, downloadBuilder, requestBuilder, downloadChecker, alreadyDownloadedRanges);
         }
     }
 }

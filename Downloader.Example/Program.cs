@@ -42,20 +42,21 @@ namespace Downloader.Example
             var bufferSize = 4096;
             var numberOfParts = 4;
             using var downloader = new MultiPartDownloader(uri, bufferSize, numberOfParts, resumingDlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
-            var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 128);
+            using var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 128);
             speedMonitor.Attach(downloader);
-            var progressMonitor = new DownloadProgressMonitor();
+            using var progressMonitor = new DownloadProgressMonitor();
             progressMonitor.Attach(downloader);
 
+            DownloadThrottling downloadThrottling = default;
             if (useDownloadSpeedThrottling)
             {
-                var downloadThrottling = new DownloadThrottling(maxBytesPerSecond: 200 * 1024, maxSampleCount: 128);
+                downloadThrottling = new DownloadThrottling(maxBytesPerSecond: 200 * 1024, maxSampleCount: 128);
                 downloadThrottling.Attach(downloader);
             }
 
             Console.WriteLine("\r\nDownload has started!");
 
-            var dlSaver = new DownloadToFileSaver(file);
+            using var dlSaver = new DownloadToFileSaver(file);
             dlSaver.Attach(downloader);
             downloader.DownloadCompleted += OnCompleted;
             downloader.Start();
@@ -81,6 +82,7 @@ namespace Downloader.Example
             exit.WaitOne();
             done.Dispose();
             exit.Dispose();
+            downloadThrottling?.Dispose();
         }
 
         static void OnCompleted(DownloadEventArgs args)

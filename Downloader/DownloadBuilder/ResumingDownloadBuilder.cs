@@ -6,11 +6,11 @@ namespace Myitian.Downloader.DownloadBuilder
 {
     public class ResumingDownloadBuilder : IDownloadBuilder
     {
-        private readonly int timeForHeartbeat;
+        public readonly int TimeForHeartbeat;
 
-        private readonly int timeToRetry;
+        public readonly int TimeToRetry;
 
-        private readonly int? maxRetries;
+        public readonly int? MaxRetries;
 
         private readonly IDownloadBuilder downloadBuilder;
 
@@ -21,15 +21,15 @@ namespace Myitian.Downloader.DownloadBuilder
 
             if (timeToRetry <= 0)
                 throw new ArgumentException("timeToRetry <= 0");
-            this.timeForHeartbeat = timeForHeartbeat;
-            this.timeToRetry = timeToRetry;
-            this.maxRetries = maxRetries;
+            this.TimeForHeartbeat = timeForHeartbeat;
+            this.TimeToRetry = timeToRetry;
+            this.MaxRetries = maxRetries;
             this.downloadBuilder = downloadBuilder ?? throw new ArgumentNullException(nameof(downloadBuilder));
         }
 
         public IDownloader Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
-            return new ResumingDownloader(url, bufferSize, offset, maxReadBytes, timeForHeartbeat, timeToRetry, maxRetries, downloadBuilder);
+            return new ResumingDownloader(url, bufferSize, offset, maxReadBytes, TimeForHeartbeat, TimeToRetry, MaxRetries, downloadBuilder);
         }
     }
 }

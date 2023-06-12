@@ -15,7 +15,7 @@ namespace Myitian.Downloader.Observer
         public DownloadToFileSaver(string filename)
         {
             if (string.IsNullOrEmpty(filename))
-                throw new ArgumentException("filename");
+                throw new ArgumentException("filename cannot be null or empty");
 
             file = new FileInfo(filename);
         }
@@ -47,7 +47,10 @@ namespace Myitian.Downloader.Observer
         {
             lock (monitor)
             {
-                fileStream = fileStream ?? file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+                if (fileStream is null)
+                {
+                    fileStream = file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+                }
             }
         }
 
