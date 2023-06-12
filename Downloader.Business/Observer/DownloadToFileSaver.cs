@@ -47,7 +47,7 @@ namespace Toqe.Downloader.Business.Observer
         {
             lock (monitor)
             {
-                fileStream ??= file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+                fileStream = fileStream ?? file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
             }
         }
 
