@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Events;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Events;
 
-namespace Toqe.Downloader.Observer
+namespace Myitian.Downloader.Observer
 {
     public class DownloadToFileSaver : AbstractDownloadObserver
     {

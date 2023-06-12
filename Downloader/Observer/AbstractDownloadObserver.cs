@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Toqe.Downloader.Contract;
+using Myitian.Downloader.Contract;
 
-namespace Toqe.Downloader.Observer
+namespace Myitian.Downloader.Observer
 {
     public abstract class AbstractDownloadObserver : IDownloadObserver, IDisposable
     {

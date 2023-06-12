@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Enums;
-using Toqe.Downloader.Contract.Events;
-using Toqe.Downloader.Contract.Exceptions;
-using Toqe.Downloader.Utils;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Enums;
+using Myitian.Downloader.Contract.Events;
+using Myitian.Downloader.Contract.Exceptions;
+using Myitian.Downloader.Utils;
 
-namespace Toqe.Downloader.Download
+namespace Myitian.Downloader.Download
 {
     public class MultiPartDownloader : AbstractDownloader
     {

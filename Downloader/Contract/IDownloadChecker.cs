@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Toqe.Downloader.Contract
+namespace Myitian.Downloader.Contract
 {
     public interface IDownloadChecker
     {

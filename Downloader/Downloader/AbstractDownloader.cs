@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Enums;
-using Toqe.Downloader.Contract.Events;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Enums;
+using Myitian.Downloader.Contract.Events;
 
-namespace Toqe.Downloader.Download
+namespace Myitian.Downloader.Download
 {
     public abstract class AbstractDownloader : IDownloader
     {

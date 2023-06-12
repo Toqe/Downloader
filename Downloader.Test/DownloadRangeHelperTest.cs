@@ -1,5 +1,5 @@
-﻿using Toqe.Downloader.Contract;
-using Toqe.Downloader.Utils;
+﻿using Myitian.Downloader.Contract;
+using Myitian.Downloader.Utils;
 using Xunit;
 
 namespace Downloader.Test

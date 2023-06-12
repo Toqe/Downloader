@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Toqe.Downloader.Contract.Events;
-using Toqe.Downloader.DownloadBuilder;
+using Myitian.Downloader.Contract.Events;
+using Myitian.Downloader.DownloadBuilder;
 using Xunit;
 
 namespace Downloader.Test

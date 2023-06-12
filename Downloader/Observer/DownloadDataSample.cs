@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Toqe.Downloader.Observer
+namespace Myitian.Downloader.Observer
 {
     public class DownloadDataSample
     {

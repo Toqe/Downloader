@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Toqe.Downloader.Contract.Exceptions
+namespace Myitian.Downloader.Contract.Exceptions
 {
     public class ResumingNotSupportedException : Exception
     {

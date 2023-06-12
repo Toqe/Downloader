@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Toqe.Downloader.Contract.Events
+namespace Myitian.Downloader.Contract.Events
 {
     public class DownloadCancelledEventArgs : DownloadEventArgs
     {

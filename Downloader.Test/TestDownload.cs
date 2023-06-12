@@ -1,7 +1,7 @@
 ﻿using System;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Events;
-using Toqe.Downloader.Download;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Events;
+using Myitian.Downloader.Download;
 
 namespace Downloader.Test
 {

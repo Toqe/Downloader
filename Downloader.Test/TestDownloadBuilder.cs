@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Toqe.Downloader.Contract;
+using Myitian.Downloader.Contract;
 
 namespace Downloader.Test
 {

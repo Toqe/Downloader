@@ -1,4 +1,4 @@
-﻿namespace Toqe.Downloader.Contract.Enums
+﻿namespace Myitian.Downloader.Contract.Enums
 {
     public enum DownloadState
     {

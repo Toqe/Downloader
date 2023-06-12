@@ -1,8 +1,8 @@
 ﻿using System;
-using Toqe.Downloader.Contract.Enums;
-using Toqe.Downloader.Contract.Events;
+using Myitian.Downloader.Contract.Enums;
+using Myitian.Downloader.Contract.Events;
 
-namespace Toqe.Downloader.Contract
+namespace Myitian.Downloader.Contract
 {
     public interface IDownloader : IDisposable
     {

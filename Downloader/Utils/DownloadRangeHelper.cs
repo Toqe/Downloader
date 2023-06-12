@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Toqe.Downloader.Contract;
+using Myitian.Downloader.Contract;
 
-namespace Toqe.Downloader.Utils
+namespace Myitian.Downloader.Utils
 {
     public class DownloadRangeHelper
     {

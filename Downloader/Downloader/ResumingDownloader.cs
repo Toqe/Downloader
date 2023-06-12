@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Enums;
-using Toqe.Downloader.Contract.Events;
-using Toqe.Downloader.Contract.Exceptions;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Enums;
+using Myitian.Downloader.Contract.Events;
+using Myitian.Downloader.Contract.Exceptions;
 
-namespace Toqe.Downloader.Download
+namespace Myitian.Downloader.Download
 {
     public class ResumingDownloader : AbstractDownloader
     {

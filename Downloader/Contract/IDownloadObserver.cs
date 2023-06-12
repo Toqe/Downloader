@@ -1,4 +1,4 @@
-﻿namespace Toqe.Downloader.Contract
+﻿namespace Myitian.Downloader.Contract
 {
     public interface IDownloadObserver
     {

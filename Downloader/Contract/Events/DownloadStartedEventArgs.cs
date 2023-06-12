@@ -1,4 +1,4 @@
-﻿namespace Toqe.Downloader.Contract.Events
+﻿namespace Myitian.Downloader.Contract.Events
 {
     public class DownloadStartedEventArgs : DownloadEventArgs
     {

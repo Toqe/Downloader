@@ -4,6 +4,6 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Downloader\Downloader.csproj" />
+    <ProjectReference Include="..\Downloader\Myitian.Downloader.csproj" />
   </ItemGroup>
 </Project>

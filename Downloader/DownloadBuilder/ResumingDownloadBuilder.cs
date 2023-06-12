@@ -1,8 +1,8 @@
 ﻿using System;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Download;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Download;
 
-namespace Toqe.Downloader.DownloadBuilder
+namespace Myitian.Downloader.DownloadBuilder
 {
     public class ResumingDownloadBuilder : IDownloadBuilder
     {

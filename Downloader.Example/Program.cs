@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Events;
-using Toqe.Downloader.Download;
-using Toqe.Downloader.DownloadBuilder;
-using Toqe.Downloader.Observer;
-using Toqe.Downloader.Utils;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Events;
+using Myitian.Downloader.Download;
+using Myitian.Downloader.DownloadBuilder;
+using Myitian.Downloader.Observer;
+using Myitian.Downloader.Utils;
 
 namespace Downloader.Example
 {

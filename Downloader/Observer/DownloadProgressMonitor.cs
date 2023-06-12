@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Events;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Events;
 
-namespace Toqe.Downloader.Observer
+namespace Myitian.Downloader.Observer
 {
     public class DownloadProgressMonitor : AbstractDownloadObserver
     {

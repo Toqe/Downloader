@@ -3,15 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Downloader", "Downloader\Downloader.csproj", "{045CE992-F761-4541-BE07-D9DA5B1E37C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myitian.Downloader", "Downloader\Myitian.Downloader.csproj", "{045CE992-F761-4541-BE07-D9DA5B1E37C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Downloader.Test", "Downloader.Test\Downloader.Test.csproj", "{B4B0E523-1273-46AD-A956-7B66390F6FA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myitian.Downloader.Test", "Downloader.Test\Myitian.Downloader.Test.csproj", "{B4B0E523-1273-46AD-A956-7B66390F6FA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Downloader.Example", "Downloader.Example\Downloader.Example.csproj", "{2BB3FC3C-173E-4F3A-8F63-0896606F106F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myitian.Downloader.Example", "Downloader.Example\Myitian.Downloader.Example.csproj", "{2BB3FC3C-173E-4F3A-8F63-0896606F106F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other items", "Other items", "{84246896-DFEF-4A11-9EF5-5BBA3EFD1D45}"
 	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Toqe.Downloader.Contract;
-using Toqe.Downloader.Contract.Events;
+using Myitian.Downloader.Contract;
+using Myitian.Downloader.Contract.Events;
 
-namespace Toqe.Downloader.Observer
+namespace Myitian.Downloader.Observer
 {
     public class DownloadThrottling : IDownloadObserver, IDisposable
     {

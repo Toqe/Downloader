@@ -1,5 +1,5 @@
 ﻿using System;
-using Toqe.Downloader.Contract;
+using Myitian.Downloader.Contract;
 
 namespace Downloader.Test
 {
