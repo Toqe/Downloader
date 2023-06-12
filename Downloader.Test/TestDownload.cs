@@ -1,11 +1,11 @@
 ﻿using System;
-using Toqe.Downloader.Business.Contract;
-using Toqe.Downloader.Business.Contract.Events;
-using Toqe.Downloader.Business.Download;
+using Toqe.Downloader.Contract;
+using Toqe.Downloader.Contract.Events;
+using Toqe.Downloader.Download;
 
 namespace Downloader.Test
 {
-    public class TestDownload : AbstractDownload
+    public class TestDownload : AbstractDownloader
     {
         public TestDownload(Uri url, int bufferSize)
             : base(url, bufferSize, null, null, null, null)

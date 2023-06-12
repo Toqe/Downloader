@@ -1,5 +1,5 @@
-﻿using Toqe.Downloader.Business.Contract;
-using Toqe.Downloader.Business.Utils;
+﻿using Toqe.Downloader.Contract;
+using Toqe.Downloader.Utils;
 using Xunit;
 
 namespace Downloader.Test

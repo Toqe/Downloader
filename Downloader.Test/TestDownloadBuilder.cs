@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Toqe.Downloader.Business.Contract;
+using Toqe.Downloader.Contract;
 
 namespace Downloader.Test
 {
@@ -13,7 +13,7 @@ namespace Downloader.Test
 
         public List<TestDownload> ReturnedDownloads { get; set; }
 
-        public IDownload Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
+        public IDownloader Build(Uri url, int bufferSize, long? offset, long? maxReadBytes)
         {
             var download = new TestDownload(url, bufferSize);
             ReturnedDownloads.Add(download);

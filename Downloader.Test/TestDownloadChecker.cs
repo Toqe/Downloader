@@ -1,5 +1,5 @@
 ﻿using System;
-using Toqe.Downloader.Business.Contract;
+using Toqe.Downloader.Contract;
 
 namespace Downloader.Test
 {
