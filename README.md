@@ -1,13 +1,15 @@
 Downloader
 ==========
 
+[![Nuget](https://img.shields.io/nuget/v/Myitian.Downloader?color=6cf&style=for-the-badge)](https://www.nuget.org/packages/Myitian.Downloader)
+
 A library for resuming and multi-part/multi-threaded downloads in .NET written in C#
 
-Forked from: [Toqe/Downloader](https://github.com/Toqe/Downloader)
+Forked from: [Toqe/Downloader](https://github.com/Toqe/Downloader) (.NET Framework 3.5+)
 
 Original author: [Toqe](https://github.com/Toqe)
 
-The library uses .NET 6.0.
+The library uses .NET 6.0 or .NET Standard 2.0.
 
 Example for usage:
 Start a resuming download with 4 parts of this README.md to local file README.md.
