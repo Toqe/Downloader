@@ -212,10 +212,14 @@ namespace Myitian.Downloader.Download
             {
                 var justDownloadedRange = new DownloadRange(offset, count);
 
-                var todoRange = ToDoRanges.Single(r => downloadRangeHelper.RangesCollide(r, justDownloadedRange));
-                ToDoRanges.Remove(todoRange);
-                var differences = downloadRangeHelper.RangeDifference(todoRange, justDownloadedRange);
-                ToDoRanges.AddRange(differences);
+                var todoRange = ToDoRanges.FirstOrDefault(r => downloadRangeHelper.RangesCollide(r, justDownloadedRange));
+
+                if (todoRange != null)
+                {
+                    ToDoRanges.Remove(todoRange);
+                    var differences = downloadRangeHelper.RangeDifference(todoRange, justDownloadedRange);
+                    ToDoRanges.AddRange(differences);
+                }
 
                 var alreadyDoneRange = AlreadyDownloadedRanges.FirstOrDefault(r => r.End + 1 == justDownloadedRange.Start);
 
