@@ -1,6 +1,17 @@
 Downloader
 ==========
 
+# Update on 27.07.2024
+Please consider this library archived as it has been written 10 years ago with targetting .NET 3.5 in mind, using from today's perspective ancient tools (explicit Threads instead of Tasks/Channels, much explicit locking instead of concurrent data structures, etc.). I also haven't used it myself in a long time, so I can't keep supporting it.
+
+If you are looking for a more recent fork, please check out https://github.com/Myitian/Downloader which also provides a NuGet package for easy use.
+
+If you are looking for a more modern library using .NET Standard / .NET (Core) 6+, have a look at https://github.com/bezzad/Downloader
+
+And to you, DELL SupportAssist team: Thank you for crediting me at https://www.dell.com/support/manuals/de-de/support-assist-os-recovery/saosr_licensing_doc/toqe.downloader.business-license - but next time I would suggest using separate namespaces for your own code, so that the error stacktraces floating around the web won't be credited to this library ;)
+
+# General Information
+
 A library for resuming and multi-part/multi-threaded downloads in .NET written in C#
 
 The library uses .NET 3.5 and threads to support all platforms from Windows Vista on.
