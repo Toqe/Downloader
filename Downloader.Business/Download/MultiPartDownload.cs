@@ -218,10 +218,14 @@ namespace Toqe.Downloader.Business.Download
             {
                 var justDownloadedRange = new DownloadRange(offset, count);
 
-                var todoRange = this.ToDoRanges.Single(r => downloadRangeHelper.RangesCollide(r, justDownloadedRange));
-                this.ToDoRanges.Remove(todoRange);
-                var differences = downloadRangeHelper.RangeDifference(todoRange, justDownloadedRange);
-                this.ToDoRanges.AddRange(differences);
+                var todoRange = ToDoRanges.FirstOrDefault(r => downloadRangeHelper.RangesCollide(r, justDownloadedRange));
+
+                if (todoRange != null)
+                {
+                    ToDoRanges.Remove(todoRange);
+                    var differences = downloadRangeHelper.RangeDifference(todoRange, justDownloadedRange);
+                    ToDoRanges.AddRange(differences);
+                }
 
                 var alreadyDoneRange = this.AlreadyDownloadedRanges.FirstOrDefault(r => r.End + 1 == justDownloadedRange.Start);
 
