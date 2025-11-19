@@ -4,7 +4,7 @@ Downloader
 # Update on 27.07.2024
 Please consider this library archived as it has been written 10 years ago with targetting .NET 3.5 in mind, using from today's perspective ancient tools (explicit Threads instead of Tasks/Channels, much explicit locking instead of concurrent data structures, etc.). I also haven't used it myself in a long time, so I can't keep supporting it.
 
-If you are looking for a more recent fork, please check out https://github.com/Myitian/Downloader which also provides a NuGet package for easy use.
+~~If you are looking for a more recent fork, please check out https://github.com/Myitian/Downloader which also provides a NuGet package for easy use (also isn't updated anymore)~~
 
 If you are looking for a more modern library using .NET Standard / .NET (Core) 6+, have a look at https://github.com/bezzad/Downloader
 
